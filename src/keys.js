@@ -11,13 +11,6 @@ module.exports = {
 };
 */
 
-database: {
-    connectionLimit: 5,
-    host: 'sql10.freemysqlhosting.net',
-    user: 'sql10341588',
-    password: 'Q4JpFQGiHF',
-    database: 'sql10341588'
-},
 
 
 };
