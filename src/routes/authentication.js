@@ -29,30 +29,6 @@ console.log(transporter);
 });
 */
 
-const transporter = nodemailer.createTransport({
-  host: 'smtp.sendgrid.net', // Gmail Host
-  port: 465, // Port
-  secure: true, // this is true as port is 465
-  auth: {
-    user: 'apikey', //sendgrid
-    pass: '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' // Gmail password
-  }
-});
-console.log(transporter);
-
-
-// solo para gmail oauth2
-//const CLIENT_ID = "836507187013-k6utc6sqvmcea00ro34rgugk4ooa0p06.apps.googleusercontent.com";
-//const CLIENT_SECRET = "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";
-//const REDIRECT_URI = "https://developers.google.com/oauthplayground";
-//const REFRESH_TOKEN =  "1//045AA3JOHcCo8CgYIARAAGAQSNwF-L9IrcCgK3G1YUho9yzTnWZf0xSKYIbi1HoI167BiKArLmG7zQmUIYaEhoKHwVXpO3vfN5Ls"
-//const oAuth2Client = new google.auth.OAuth2(
-//  CLIENT_ID,
-//  CLIENT_SECRET,
-//  REDIRECT_URI
-//);
-//oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN });
-
 
 
 const AWS = require('aws-sdk');
