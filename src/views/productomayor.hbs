@@ -1,0 +1,110 @@
+<body>
+  <form id="myform">
+    <div class="container mt-5  my-4" style="width:300px;" align="center">
+      <table>
+        <tr>
+          <td style="width:300px;  align-items: center; text-align: center;">
+            <input style="width:300px;" type="text" name="search" id="search" class="form-control"
+              placeholder="buscar" />
+          </td>
+          <td style="width:300px;  align-items: center; text-align: center;">
+           
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="d-flex  justify-content-center">
+      <div class="col-md-12 mx-auto">
+        <div class="listaProductos">
+          <table class="table table-striped table-bordered table-hover" id="tabla">
+            <tr>
+              <!--<td>Cat</td>
+              <td>SCat</td>
+              <td>Ord</td>-->
+              <td>Producto</td>
+              <td style="text-align:center;">Precios a Comercios</td>
+              <!--<td>Final</td>-->
+
+              <tbody>
+                {{#each data}}
+                <tr>
+                 <!-- <td>{{id_categoria}}</td>
+                  <td>{{id_subcategoria}}</td>
+                  <td>{{orden}}</td>-->
+                  
+                  <td>{{des}}</td>
+                  <td style="text-align:right;">$&nbsp&nbsp{{precio2}}</td>
+                  <!--<td style="text-align:right;">$&nbsp&nbsp{{precio1}}</td>-->
+  
+                
+                </tr>
+                {{/each}}
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="overlay"></div> <!-- si sacoesto deja de andar el scrip -->
+
+
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+
+      $('#visible').change(function () {
+        if (this.checked) {
+          console.log('1');
+        } else {
+          console.log('0');
+        }
+      });
+
+      var self = this;
+
+      $('#search').keyup(function () {
+        search_table($(this).val());
+      });
+
+      function search_table(value) {
+
+        $('#tabla tr').each(function () {
+          var found = 'false';
+
+          $(this).each(function () {
+            if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+              found = 'true';
+            }
+          });
+
+          if (found == 'true') {
+            $(this).show();
+          }
+          else {
+            $(this).hide();
+          }
+
+        });
+      }
+    });
+
+    function nuevoproducto() {
+      console.log("nuevoprouctor");
+      localStorage.clear();
+      console.log('Agregando Nuevo Producto');
+      Swal.fire({
+        title: 'Agregando Nuevo Producto ....',
+        text: '',
+        showConfirmButton: false,
+        timer: 2000
+      }).then(function () {
+        window.location = "productonuevo";
+      })
+      /*  document.getElementById("visible").style.visibility = 0;
+        document.getElementById("visible").style="background-color:red;";
+         location.reload();
+       */
+    }
+
+  </script>
+</body>

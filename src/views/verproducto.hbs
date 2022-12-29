@@ -1,0 +1,48 @@
+<main class="index">
+ <header class="masthead d-flex  mr-auto p-2">
+    <div class="col-md-6 mx-auto">
+     
+        {{#each pro}}
+         <div class="card text-center cardProducto">
+        <form action="/producto" method="get">
+          <table style="border-collapse: collapse;" heigth="auto" width= "100%">
+            <tr>
+              <td style="width: 50%; text-align:center;background: #a2a2a3" colspan="2">
+                <p>{{des}}</p>
+              </td>
+            <tr>
+              <td colspan="2">
+               {{#if foto2}}
+                <img src="../../img/{{foto2}}" width="300" height="300">
+                {{/if}} 
+              </td>
+            </tr>
+            <tr class="titu">
+              <td style="width: 50%; text-align: right;" ;>
+                <label>Precio por&nbsp{{tipoventa}} :&nbsp&nbsp&nbsp&nbsp</label>
+              </td>
+              <td style="width: 50%; text-align: left;color:red";>
+                <label>&nbsp&nbsp$&nbsp&nbsp{{precio1}} </label>
+              </td>
+              
+            </tr>
+            {{#if nota}}
+              <tr>             
+                <td style="align: center; font-size:25px;" colspan="2" >
+                  <label>{{nota}} </label>
+                </td>              
+              </tr>
+            {{/if}}   
+            <tr>
+              <td align="center" colspan="2">            
+                  <button class="btn btn-primary btn-lg btn-block active" role="button" aria-pressed="true" type="submit" >Cerrar</button>    
+              </td>
+            </tr>
+          </table>
+        </form>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  <!--</header>-->
+</main>

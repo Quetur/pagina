@@ -1,0 +1,345 @@
+<body>
+  <!--<div class="container my-2" style="width:300px;" align="center">
+  
+    <input type="text" name="search" id="search" class="form-control"  />  
+            
+  </div>  
+    <!--<input type="text" id="formulario" class="form-control my-2">
+    <button class="btn btn-info mb-2" id="boton">buscar</button>-->
+
+  <div class="container grid">
+
+    {{#each pro}}
+    <article class="grid-div">
+      <table border=0 style="border-collapse: separate;" id="tabla">
+          <td align="center" colspan="2">
+            {{#if foto2}}
+           <!-- <img class="grid-img" src="../../img/{{foto2}}" value="../../img/{{foto2}}" />-->
+           <img class="grid-img" src="https://losrosales-fileserver.s3-sa-east-1.amazonaws.com/img/{{foto2}}" />
+
+            {{else}}
+            <img class="grid-img" />
+
+            {{/if}}
+            <input id="foto_{{id_producto}}" value="{{foto2}}" hidden=true></input>
+          </td>
+        </tr>
+        <tr> <!--renglon de descripcion  -->
+          <td valign="top" class="descripcion-producto" colspan="2" data-serch={{des}}>
+            <a>{{des}}</a>
+            <input id="desc_{{id_producto}}" value="{{des}}" hidden=true> </input>
+          </td>
+        </tr>
+        <tr>
+          <td class="nota" style="height: 150px;">
+            <a>{{nota}}</a>
+            <input id="tipo_{{id_producto}}" value="{{tipoventa}}" style="width:200px; align= right"hidden=true></input>
+            <BR>Precio por &nbsp{{tipoventa}} </BR> 
+          </td>
+          <td>
+            <input value={{precio1}} readonly hidden=true></input>
+            <p class="total-price" align="botton">$&nbsp&nbsp{{precio1}}</p>
+          </td>
+        </tr>
+        <tr>  <!--renglon de precio unitario 2 columnas  -->
+          <td class="nota" align="center">
+            <input id="precio_{{id_producto}}" value={{precio1}} readonly hidden=true></input>
+            <!--<input type="text" class="total-price" align="right" width="20%" id="unidad_{{id_producto}}"
+              value={{unidad}} hidden=true></input>-->
+
+          </td>
+          <td align="center">
+              <input type="text" class="total-price" align="right" width="20%" id="unidad_{{id_producto}}"
+                value={{unidad}} hidden=true></input>
+              <!--<input type="text" value={{tipoventa}} hidden=true></input>-->
+          </td>
+        </tr>
+        <tr> <!--renglon de botones  -->
+         
+            <td style="width: 300px;" align="center"> <!--columna de botones -->
+               <div class="quantity">
+              <button class="minus-btn" type="button" id="BotonMenos" value="{{id_producto}}">-</button>
+                <!--<img class="minus-btn" id="BotonMenos" value="{{id_producto}}" style="width:50px;" src="../../img/minus.png" alt="minus-btn" />
+                  </button>-->
+              <input style="width: 80px;" type="text" class="quantity.input" id="cantidad_{{id_producto}}" value="0" readonly></input>
+               
+               
+              <button class="plus-btn" type="button" value="{{id_producto}}">+</button>
+                 <!-- <img style="width:50px;" src="../../img/plus.png" alt="suma" id="BotonMas">-->
+             
+
+              <button class="sumacanasto" type="button" id="{{id_producto}}" value="{{id_producto}}">Agregar</button>
+              <!--<img style="width:100px margin-top: 10px;" src="../../img/ponecarrito.png" alt="sumacanasto" />-->
+              
+            </td>
+            <td align="right">
+              <input type="text" class="total-price" style="background-color:rgb(245, 245, 233);" id="total_{{id_producto}}" value="0"
+                readonly></input>
+                </div>
+            </td>
+          
+        </tr>
+
+
+      </table>
+    </article>
+
+    {{/each}}
+  </div>
+
+
+
+
+  <script type="text/javascript">
+    let items=0;
+
+    $(document).ready(function () {
+      console.log('pulsa');
+
+      var self = this;
+
+      console.log('this');
+      console.dir(this);
+      
+      $('#search').keyup(function(){  
+        console.log('busca');
+          search_table($(this).val());  
+      });  
+
+      function search_table(value){  
+          $('#tabla tr').each(function(){  
+                var found = 'false';  
+                $(this).each(function(){  
+                    if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)  
+                    {  
+                          found = 'true';  
+                    }  
+                });  
+                if(found == 'true')  
+                {  
+                    $(this).show();  
+                }  
+                else  
+                {  
+                    $(this).hide();  
+                }  
+          });  
+      }  
+
+      
+      $('.plus-btn').on('click', function (e) {
+
+        console.log('aa');
+        var id = (e.target.value);
+        var str = parseFloat($("#cantidad_" + id).val());
+        var unidad = parseFloat($("#unidad_" + id).val());
+        var price = parseFloat($("#precio_" + id).val());
+        var tipo =  $("#tipo_" + id).val();
+        var stotal =  parseFloat($("#total_" + id).val());
+        console.dir(unidad);
+        console.dir(tipo);
+        console.log(price);
+        console.log(unidad);
+        console.log(str);
+        let total_item = 0;
+        console.log(str);
+        if (tipo =='kilo.') {
+            str = parseFloat(str + 1).toFixed(2); //  cantidad
+            total_item = parseFloat(price * str * unidad).toFixed(2);
+        }
+        else
+        {
+          str = parseFloat(str + unidad).toFixed(2); //  cantidad
+          total_item = parseFloat(price * str).toFixed(2);
+        }
+
+
+        console.log(str);
+        $("#cantidad_" + id).val(str);      // pone la cantidad en el value de cantidad
+        $("#total_" + id).val(total_item);
+
+      });
+
+
+
+      $('.minus-btn').on('click', function (e) {
+        var id = (e.target.value);
+        var str = parseFloat($("#cantidad_" + id).val());
+        var price = parseFloat($("#precio_" + id).val());
+        var unidad = parseFloat($("#unidad_" + id).val());
+        var tipo =  $("#tipo_" + id).val();
+        var stotal =  parseFloat($("#total_" + id).val());
+
+      
+        
+        //str = parseFloat(str).toFixed(2);
+        console.log(str);
+        console.log(unidad);
+
+
+
+        if (str < unidad) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El producto debe ser mayor a 0',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          var str = 0;
+          var unidad = 0;
+        }
+        
+        if (tipo =='kilo.') {
+            str = parseFloat(str - 1).toFixed(2); //  cantidad
+            total_item = parseFloat(price * str * unidad).toFixed(2);
+        }
+        else
+        {
+          str = parseFloat(str - unidad).toFixed(2); //  cantidad
+          total_item = parseFloat(price * str).toFixed(2);
+        }
+        //var total_item = parseFloat(price * str * unidad).toFixed(2);
+        $("#cantidad_" + id).val(str);
+        $("#total_" + id).val(total_item);
+
+
+      });
+
+
+      $('.sumacanasto').on('click', function (e) {
+        
+        console.log('agregar carrito');
+        console.log(e.target);
+     
+        var id = (e.target.value),
+        cant = parseFloat($("#cantidad_" + id).val());
+        console.log($("#tipo_" + id).val());
+       // var stotal =  parseFloat($("#total_" + id).val());
+                
+        const infoProducto = {
+          id: id,
+          desc: $("#desc_" + id).val(),
+          img: $("#foto_" + id).val(),
+          cant: parseFloat($("#cantidad_" + id).val()),
+          unid: parseFloat($("#unidad_" + id).val()),
+          precio: parseFloat($("#precio_" + id).val()),
+          tipo:  $("#tipo_" + id).val(),
+          stotal: parseFloat($("#total_" + id).val())
+        };
+
+
+        if (cant == 0) {
+
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El producto debe ser mayor a 0',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        }
+        else {
+          let productosLS;
+          items=0;
+          productosLS = obtenerProductosLocalStorage();
+          productosLS.forEach(function (productoLS) {
+ 
+            items++;
+            if (productoLS.id === infoProducto.id) {
+              productosLS = productoLS.id;
+            }
+          });
+         
+
+           
+          if (productosLS === infoProducto.id) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El producto ya está en el carrito',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          }
+          else {
+
+            let productos = [];
+            productos = obtenerProductosLocalStorage();
+            productos.push(infoProducto);
+            localStorage.setItem('productos', JSON.stringify(productos));
+            document.getElementById('items').value = productos.length;
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto agregado al carrito',
+              showConfirmButton: false,
+              timer: 1500
+            })
+
+          }
+
+          
+        }
+        /*
+         Swal.fire({
+            icon: 'warning',
+            title: 'No se hacen envios hasta el 7 de febrero',
+            text: 'Te esperamos en nuestro local, Av. Kirchner 21500, Ituzaingo',
+            showConfirmButton: true,
+            timer: false
+          })
+          */
+      });
+
+      function obtenerProductosLocalStorage() {
+        let productoLS;
+        //Comprobar si hay algo en LS
+        if (localStorage.getItem('productos') === null) {
+          console.log('no tiene');
+          productoLS = [];
+        }
+        else {
+          console.log('tiene');
+          console.dir(localStorage.getItem('productos'));
+          productoLS = JSON.parse(localStorage.getItem('productos'));
+         
+        }
+        return productoLS;
+      }
+
+
+    });
+  </script>
+  <!--<script src="carrito.js"></script>-->
+  <script>
+    const carro = new Carrito();
+    const carrito = document.getElementById('carrito');
+    const productos = document.getElementById('lista-productos');
+    const listaProductos = document.querySelector('#lista-carrito tbody');
+    const vaciarCarritoBtn = document.getElementById('vaciar-carrito');
+    const procesarPedidoBtn = document.getElementById('procesar-pedido');
+
+    cargarEventos();
+
+    function cargarEventos() {
+
+      //Se ejecuta cuando se presionar agregar carrito
+      productos.addEventListener('click', (e) => { carro.comprarProducto(e) });
+
+      //Cuando se elimina productos del carrito
+      carrito.addEventListener('click', (e) => { carro.eliminarProducto(e) });
+
+      //Al vaciar carrito
+      vaciarCarritoBtn.addEventListener('click', (e) => { carro.vaciarCarrito(e) });
+
+      //Al cargar documento se muestra lo almacenado en LS
+      document.addEventListener('DOMContentLoaded', carro.leerLocalStorage());
+
+      //Enviar pedido a otra pagina
+      procesarPedidoBtn.addEventListener('click', (e) => { carro.procesarPedido(e) });
+    }
+  </script>
+  <script src="pedido.js"></script>
+  <!--<script src="sweetalert2.min.js"></script>-->
+</body>

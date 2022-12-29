@@ -1,0 +1,38 @@
+<header class="masthead d-flex">
+
+<div class="container mt-5">
+        <div class="card">
+            <div class="card-body">  
+                <div class="row">
+                  <div class="col-md-12">  
+                    <div class="listaPedidos" >                 
+                      <table class="table table-bordered table-hover">  
+                        <a class="listadoProductos"></a>
+                          <div class="scrollbar scrollbar-primary"></div>
+                           <tr>
+                            <td>Numero Pedido</td> 
+                            <td>Fecha Pedido</td> 
+                            <td>total</td>
+                            <td>Fecha Entrega</td>
+                            </tr>
+                             {{#each ped}} 
+                              <tbody> 
+                                <tr>      
+                                  <td>{{nro_pedido}}</td>                 
+                                  <td>{{feha}}</td>
+                                  <td>{{total}}</td>
+                                  <td>{{entregado}}</td>
+                              </tbody>
+                              {{/each}} 
+                         </div>
+                      </table>
+                  </div>
+                  </div>
+                </div>
+                
+            </div>
+          </div>
+    </div>
+</header>
+
+

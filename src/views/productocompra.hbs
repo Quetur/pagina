@@ -1,0 +1,932 @@
+<body>
+  <form id="procesar-compra" action="/procesar-compra" method="POST" style="font-size:24px">
+    <div class="row">
+      <div class="col-md-6">
+        <!--<div class="container mt-3 " style="width:300px;" align="left">-->
+
+        <table border=0 align="center">
+          <tr>
+            <td style="width:300px;  align-items: center; text-align: center;">
+              <input style="width:300px;" type="text" name="search" id="search" class="form-control"
+                placeholder="buscar" />
+            </td>
+          </tr>
+        </table>
+        <div class="d-flex  justify-content-center">
+          <div class="col-md-12 mx-auto">
+            <div class="listaProductos" style="domLayout: autoHeight;min-height: 1000px !important; ">
+              <table class="table table-striped table-bordered table-hover header-fixed" id="tabla">
+                <thead>
+                  <tr style="color:black;font-size:80%;">
+                    <th>Stock</th>
+                    <th>Descripcion</th>
+                    <th>Fecha</th>
+                    <th>Costo</th>
+                    <th>% M</th>
+                    <th>mayor</th>
+                    <th>% F</th>
+                    <th>final</th>
+                    <th style="text-align:center;" colspan="4">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each produ}}
+                  <tr style="color:black;font-size:70%;">
+                    <td>{{stock}}</td>
+                    <td>{{des}}</td>
+                    <!-- <td style="text-align:right;" >{{fecha}}</td> -->
+                    <td style="text-align:right;">{{fecha}}</td>
+                    <td style="text-align:right;" value={{costo}}>$&nbsp&nbsp{{costo}}</td>
+                    <td style="text-align:right;" value={{porcprecio2}}>%&nbsp{{porcprecio2}}</td>
+                    <td style="text-align:right;">$&nbsp&nbsp{{precio2}}</td>
+                    <td style="text-align:right;" value={{porcprecio1}}>%&nbsp{{porcprecio1}}</td>
+                    <td style="text-align:right;">$&nbsp&nbsp{{precio1}}</td>
+                    <td style="text-align:center; ">
+
+                      <button style="background-color:green;color:white; " class="sumacompra" type="button"
+                        id="{{id_producto}}" value="{{id_producto}}">+</button>
+                         <!-- <a href="/modificarproducto!!/{{id_producto}}"
+                      class="btn btn-info">Modificar</a>-->
+                      <button style="background-color:green;color:white; " class="vercompra" type="button"
+                        id="{{id_producto}}" value="{{id_producto}}">V</button>
+                    </td>
+                    <input id="desc_{{id_producto}}" value="{{des}}" hidden=true> </input>
+
+                    <input id="costo_{{id_producto}}" value="{{costo}}" hidden=true> </input>
+                    <input id="fecha_{{id_producto}}" value="{{fecha}}" hidden=true> </input>
+                    <input id="precio2_{{id_producto}}" value="{{precio2}}" hidden=true> </input>
+                    <input id="precio1_{{id_producto}}" value="{{precio1}}" hidden=true> </input>
+                    <input id="porcprecio1_{{id_producto}}" value="{{porcprecio1}}" hidden=true> </input>
+                    <input id="porcprecio2_{{id_producto}}" value="{{porcprecio2}}" hidden=true> </input>
+
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <form>
+          <table border=0 align="center">
+            <tr style="color:black;font-size:80%;"></tr>
+            <td>
+
+              <select name="combo_prov" id="combo_prov" style="width: 100%;  text-align: right;">
+                 <option value=0>Seleccione un Proveedor</option>
+                {{#each prov}}
+                <!--    {{#if id_categoria_producto}}-->
+                <option selected value={{id_prov}}>{{razonsocial}}</option>
+                <!--   {{else}}-->
+                <option value={{id_prov}}>{{razonsocial}}</option>
+                <!--   {{/if}}-->
+                {{/each}}
+              </select>
+
+            </td>
+            <td style="width:300px;" align="center">
+
+              <input type="date" name="fecha" id="fecha" class="fecha " align="center" date-format="DD MM YY">
+              
+            </td>
+            <td style="width:300px;  align-items: left; text-align: center;">
+              <label class="radio form-control">
+                <input style="width:300px;" type="radio" name="condicion" id="condicion1" value="compra" checked
+                  class="condicion">compra</input></label>
+              <label class="radio">
+                <input style="width:300px;" type="radio" name="condicion" id="condicion2" value="actualizacion" required
+                  class="condicion">actualizacion</input></label>
+            </td>
+            </tr>
+
+            <!--  <tr>
+              <td></td>
+              <td>
+                <input id="vaciar-carrito" class="btn btn-danger  btn-lg btn-block" onclick=vaciarCarrito()
+                  type="button" value="Vaciar Compra"></input>
+              </td>
+
+              <td>
+               
+              </td>
+
+            </tr>
+              -->
+          </table>
+
+          <div class="d-flex  justify-content-center">
+            <div class="col-md-12 mx-auto">
+              <div class="listaProductos">
+                <!--  id="lista_compra" -->
+                <table id="lista_compra" class="table table-striped table-bordered table-hover" name="lista_compra">
+                  <thead>
+                    <tr style="color:black;font-size:80%;">
+                      <th>Descripcion</th>
+                      <th>Cant</th>
+                      <th>Costo</th>
+                      <th>Subttl</th>
+                      <th>%</th>
+                      <th>mayor</th>
+                      <th>%</th>
+                      <th>final</th>
+                      <th style="text-align:center;" colspan="4"></th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="prod_compra">
+                    <span id="out"></span>
+                  </tbody>
+                </table>
+
+              </div>
+              <table border=0 align="center">
+                <tr>
+                  <td>
+                    <label class="col-form-label h2">Total de la Compra :</label>
+                  </td>
+                  <td style="width:300px;  align-items: right; text-align: right;" >
+                    <input style="width:300px;" align="center" class="btn btn-primary btn-lg btn-block" id="total" name="total" class="total" value="" type="text" readonly> </input>
+                  </td>
+                </tr>  
+                <tr>
+                    <td style="width:300px;  align-items: right; text-align: right;" >
+                                         <label class="col-form-label h2">Items :</label>
+                    </td>
+                    <td style="width:300px;  align-items: center; text-align: center;">
+                      <input style="width:300px;" class="btn btn-secondary btn-lg btn-block" name="largo" id="largo" align="center" >
+                  </td>
+                   <td>
+                       <label class="col-12 col-md-2 col-form-label h2"></label>
+                  </td>
+                   <td>
+                       <label class="col-12 col-md-2 col-form-label h2"></label>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:300px;  align-items: center; text-align: center;" >&nbsp&nbsp</td>
+
+                </tr>
+                <tr style="width:300px;  align-items: right; text-align: right;">
+                   <td>
+                       <label class="col-12 col-md-2 col-form-label h2"></label>
+                  </td>
+                   <td>
+                       <label class="col-12 col-md-2 col-form-label h2"></label>
+                  </td>
+                   <td>
+                       <label class="col-12 col-md-2 col-form-label h2"></label>
+                  </td>
+                 <td style="width:300px;  align-items: right; text-align: right;" >
+                    <input style="width:300px;" class="btn btn-success btn-lg btn-block" id="boton_procesarcompr" value="Procesar Compra"
+                  onclick=validar()>
+                 </td> 
+                </tr>
+              </table>
+              </input>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="overlay"></div> <!-- si sacoesto deja de andar el scrip -->
+
+  <script type="text/javascript">
+
+
+
+    var mydata = [];
+    console.log(mydata);
+ 
+    $(document).ready(function () {
+
+      $('#visible').change(function () {
+        if (this.checked) {
+          console.log('1');
+        } else {
+          console.log('0');
+        }
+      });
+
+      var self = this;
+
+      $('#search').keyup(function () {
+        search_table($(this).val());
+      });
+
+      $('#cambia_costo').keyup(function () {
+        console.log("cambia costo")
+        //calcula_precio($(this).val());
+      });
+
+      function search_table(value) {
+
+        $('#tabla tr').each(function () {
+          var found = 'false';
+
+          $(this).each(function () {
+            if ($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0) {
+              found = 'true';
+            }
+          });
+
+          if (found == 'true') {
+            $(this).show();
+          }
+          else {
+            $(this).hide();
+          }
+
+        });
+      }
+    });
+
+    //$('#lista_compra').SetEditable({ $addButton: $('#addNewRow')});
+
+    $('.vercompra').on('click', function (e) {
+
+          console.log('ver compra');
+          console.log(e.target);
+          var id = (e.target.value);
+          console.log("id :", id);
+          var linea = "/detallecompra/"+id;
+          console.log("linea ", linea);
+          window.open(linea,"byspel","width=600,height=600,menubar=no");
+
+    });
+
+
+
+    $('.sumacompra').on('click', function (e) {
+
+      console.log('agregar carrito');
+      console.log(e.target);
+
+
+
+      var id = (e.target.value);
+      console.log("id :", id);
+
+      costo = parseFloat($("#costo_" + id).val());
+      console.log("costo", costo);
+
+      cant = 1;
+      //console.log("cantidad :", cant);
+
+      var cant = parseFloat(prompt("Cantidad : ", cant));
+      cant= cant.toFixed(2);
+      //console.log("cantidad :", cant);
+      var costo_temp = parseFloat(prompt("Costo : ", costo));
+      costo_temp=costo_temp.toFixed(2);
+      var largomydata = mydata.length + 1;
+      console.log("largo mydata : ", largomydata);
+      console.log("porcentaje precio2 1:",parseFloat($("#porcprecio2_" + id).val()));
+      console.log("costo_temp :",costo_temp);
+      mayor_temp = (parseFloat($("#porcprecio2_" + id).val()) / 100 * costo_temp + parseFloat( costo_temp)).toFixed(2);
+      final_temp = (parseFloat($("#porcprecio1_" + id).val()) / 100 * costo_temp +  parseFloat(costo_temp)).toFixed(2);
+      
+
+      console.log("mayor_temp : ", mayor_temp)
+      const infoProducto = {
+        id: id,
+        desc: $("#desc_" + id).val(),
+        costo: costo_temp,
+        //fecha: $("fecha_" + id).value,
+        porcprecio1: parseFloat($("#porcprecio1_" + id).val()),
+        mayor: mayor_temp,
+        subttl: parseFloat((cant * costo)).toFixed(2),
+        porcprecio2: parseFloat($("#porcprecio2_" + id).val()),
+        final: final_temp,
+        id_borrado: largomydata,
+      };
+      //console.log("subtotal:", subttl);
+      console.log("infoproducto");
+      console.log(infoProducto);
+      mydata.push(infoProducto);
+      console.log("Legth mydata :", mydata.length.toString());
+      let largo = mydata.length.toString();
+      console.log("mydata :", largo);
+
+
+
+      const row = document.createElement('tr');
+      // id="+String.fromCharCode(34)+largo.toString()+String.fromCharCode(34));
+      console.log("row antes: ", row);
+      //console.log("tamaño : ",  mydata.length.toString() )
+      //row= row+ mydata.length;
+      //console.log("row despues: ",row);
+
+      var trs = $("table tbody tr");
+      var idnuevo = 0;
+      //console.log("trs ", trs);
+      $.each(trs, function (i, tr) {
+        if (!$(tr).attr('id')) {
+          idnuevo = i + 1;
+        }
+      });
+      //console.log("trs ", trs);
+      // console.log("idnuevo ", idnuevo);
+
+      /* <input onclick=cambiar_costo(this) type="button" value="${infoProducto.costo}"
+                   style="font-size:24px;font-size:80%; id="${largo}"></input>
+      */
+
+      //  <input onclick=cambiar_costo(this)  type="button" value="${infoProducto.costo}" name="cambiar_costo" id="cambiar_costo"></input>${infoProducto.costo}</td>
+
+      //   <input onclick=cambiar_costo(this)  type="text" value="${infoProducto.costo}" name="cambiar_costo" id="cambiar_costo" hidden=true></input>${infoProducto.costo}</td>
+      row.innerHTML = `
+               <tr style="color:black;font-size:80%;">
+                <td style="color:black;font-size:70%;" id="${largo}">
+                  
+                  <input type="text" value="${infoProducto.desc}" name="desc" hidden=true></input>${infoProducto.desc}</td>
+                <td style="color:black;font-size:70%;" align="right" class="text-right" id="${largo}">
+                   <input type="button" text-align="right"
+                   onclick=cantidad(this,${largo}) 
+                   value="${cant}" class="cant_${largo}" name="cant_${largo}" id="cant_${largo}"
+                      ></input>
+
+                </td>
+                <td style="color:black;font-size:70%;" class="text-right" contenteditable='true'  id="${largo}">
+                   <input type="button" 
+                   onclick=cambio_de_costo(this,${largo},${infoProducto.porcprecio2},${infoProducto.mayor},${infoProducto.porcprecio1},${infoProducto.final}) 
+                   value="${infoProducto.costo}" class="costo_${largo}" name="costo_${largo}" id="costo_${largo}"
+                      ></input>
+                </td>
+                 <td style="color:black;font-size:70%;" class="text-right" contenteditable='true'  id="${largo}">
+                   <input type="button" 
+                   value="${infoProducto.subttl}" class="subttl_${largo}" name="subttl_${largo}" id="subttl_${largo}"
+                      ></input>
+                </td>
+
+                <td style="color:black;font-size:70%;" class="text-right" contenteditable='true' id="${largo}" >
+                   <input type="button"  
+                   onclick=cambio_de_porc_mayor(this,${largo})                  
+                   value="${infoProducto.porcprecio2}" class="porc2_${largo}" "porc2_${largo}"  id="porc2_${largo}"></input></td>
+
+                <td style="color:black;font-size:70%;" class="text-right"  id="${largo}">
+                  <input type="button" 
+                  onclick=cambio_de_mayor(this,${largo}) 
+                   value="${infoProducto.mayor}" class="mayor_${largo}"  name="mayor_${largo}" id="mayor_${largo}"> </input>
+                </td>  
+                
+                <td style="color:black;font-size:70%;" class="text-right" contenteditable='true'  id="${largo}">
+                  <input type="button" 
+                  onclick=cambio_de_porc_final(this,${largo}) 
+                  value="${infoProducto.porcprecio1}" class="porc1_${largo}" name="porc1_${largo}" id="porc1_${largo}"></input> </td>
+
+                <td style="color:black;font-size:70%;" class="text-right" contenteditable='true'  id="${largo}">
+                  <input type="button" 
+                  onclick=cambio_de_final(this,${largo}) 
+                  value="${infoProducto.final}" class="final_${largo}" name="final_${largo}" id="final_${largo}"> </input></td>  
+                <td style="color:black;font-size:70%;" class="text-center">
+
+                   <input onclick=eliminarProducto(this) type="button" value="X"
+                    style="font-size:24px;color:white; font-size:80%; background-color:red;" id="${largo}"></input>
+                    <input type="text" value="${infoProducto.id}" name="cod" hidden=true></input></td>
+                    <input type="text" value="${cant}" class="cant${largo}" id="cant${largo}" name="cant"  hidden=true></input></td>
+                    <input type="text" value="${infoProducto.costo}" class="costo${largo}" id="costo${largo}" name="costo"  hidden=true></input></td>
+                    <input type="text" value="${infoProducto.porcprecio2}"  class="porcprecio2${largo}" name="porcMayorista"  hidden=true></input></td>
+                    <input type="text" value="${infoProducto.mayor}" class="mayorista${largo}" name="mayorista"  hidden=true></input></td>
+                    <input type="text" value="${infoProducto.porcprecio1}"  class="porcprecio1${largo}" name="porcFinal"  hidden=true></input></td>
+                    <input type="text" value="${infoProducto.final}"  class="final${largo}" name="final"  hidden=true></input></td>                 
+                </td>
+              </tr>
+              `;
+
+      //var elt=document.getElementById("lista_compra");
+      //console.log("elt ", elt);
+      //console.log("elt.firstChild.id ", elt.firstChild.id);
+      //var out=document.getElementById("out");
+      //out.innerHTML="name="+elt.firstChild.name+",id="+elt.firstChild.id
+      console.log("row a agregar: ", row);
+      listaCompra.appendChild(row);
+      //$("table tbody tr").attr('id', mydata.length);
+      // $("tr").attr('id', mydata.length);
+      //location.reload();
+      subttl_temp = ".subttl_" + largo;
+      console.log("subttl_temp", subttl_temp);
+      document.querySelector(subttl_temp).value = parseFloat(cant * costo_temp).toFixed(2);
+
+      $(document).ready(function () {
+        var trs = $("table tbody tr");
+        // console.log("trs ", trs);
+        $.each(trs, function (i, tr) {
+          if (!$(tr).attr('id')) {
+            // i+1  
+            $(tr).attr('id', largo);
+          }
+        });
+      });
+      total = 0;
+      mlargo =0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = parseFloat(total) +parseFloat(fila.children[3].firstElementChild.value);
+        console.log("total 1", total);
+        mlargo=mlargo+1;
+      });
+      field = document.querySelector('#total');
+      field.value = parseFloat(total.toFixed(2));
+      console.log("total 2", total);
+      field = document.querySelector('#largo');
+      field = document.querySelector('#largo');
+      field.value = mlargo;
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+    });
+
+    /*
+       function eliminarProducto(productoaeliminar) {
+      
+            // Getting all the rows next to the row 
+            // containing the clicked button 
+            var child = $(this).closest('tr').nextAll(); 
+            console.log("child", child)
+            // Iterating across all the rows  
+            // obtained to change the index 
+            child.each(function () { 
+      
+              // Getting <tr> id. 
+              var id = $(this).attr('id'); 
+      
+              // Getting the <p> inside the .row-index class. 
+              var idx = $(this).children('.row-index').children('p'); 
+      
+              // Gets the row number from <tr> id. 
+              var dig = parseInt(id.substring(1)); 
+      
+              // Modifying row index. 
+              idx.html(`Row ${dig - 1}`); 
+      
+              // Modifying row id. 
+              $(this).attr('id', `R${dig - 1}`); 
+            }); 
+      
+            // Removing the current row. 
+            $(this).closest('tr').remove(); 
+      
+            // Decreasing total number of rows by 1. 
+            rowIdx--; 
+          }; 
+      */
+
+
+    function eliminarProducto(ctl) {
+      // console.log('eliminar producto :',productoaeliminar);
+      console.log("ctl", ctl);
+      $(ctl).parents("tr").remove();
+      //$(document).on('click', '.remove', function (){
+
+      //$(this).remove();
+
+      // $("#" + productoaeliminar).remove();
+      // event.preventDefault();
+      //$(this).closest('tr').remove();
+      /* para borrar de mydata
+      console.log(productoaeliminar);
+  
+      console.log("mydata antes de borrar mydata");
+      console.log(mydata);
+  
+      mydata.splice(productoaeliminar);
+      console.log("mydata despues de borrar mydata");
+      console.log(mydata);
+      */
+
+      //var doc = document.getElementById("lista_compra");
+
+      //console.log(" doc a antes de borrar", doc);
+      // document.getElementById(productoaeliminar).remove(); 
+      // doc.("#" + productoaeliminar).remove();
+
+      // document.getElementById("lista_compra").deleteRow(productoaeliminar);
+      // var trs = $("lista_compra tbody tr");
+      //console.log("trs ", trs);
+
+      //doc.each(function (doc, productoaeliminar) {
+      //$.each(trs, function(i, tr) {
+      //if ($(tr).attr('id')=productoaeliminar) {    
+      // document.getElementById("lista_compra").deleteRow(productoaeliminar);
+      //} 
+      //  });
+
+
+      // console.log(doc);
+
+
+      /*
+        let productosLS;
+        //Obtenemos el arreglo de productos
+        productosLS = obtenerProductosLocalStorage();
+        //Comparar el id del producto borrado con LS
+        productosLS.forEach(function (productoLS, index) {
+          console.log(productoLS.id);
+          if (productoLS.id == productoID) {
+            console.log('encontrado');
+            productosLS.splice(index, 1);
+    
+          }
+    
+       */
+      /*
+         //  $(document).ready(function() {  
+            var trs = $("table tbody tr");
+           // console.log("trs ", trs);
+            $.each(trs, function(i, tr) {
+            if ($(tr).attr('id')) {  
+              // i+1  
+              document.getElementById("lista_compra").deleteRow(productoaeliminar);
+              console.log("doc a despues de borrar : ", doc);
+            }
+           });  
+         */
+      total = 0;
+      mlargo =0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+        mlargo=mlargo+1;
+      });
+      field = document.querySelector('#total');
+      field.value = total;
+      console.log("total ", total);
+      field = document.querySelector('#largo');
+      field = document.querySelector('#largo');
+      field.value = mlargo;
+    };
+    /*
+        function editar() {
+          console.log("editar");
+        };
+    */
+
+
+
+    function validar() {
+
+      console.log("validar");
+    
+      var table = document.getElementById("prod_compra");
+      mprov=document.getElementById('combo_prov').value
+      console.log("proveedores", combo_prov);
+
+        if ( mprov == 0 ) {
+        console.log("entro en proveedor")
+        //console.log("cliente : "document.getElementById('combo_cliente').value);
+       // document.getElementById("combo_cliente").focus();
+          Swal.fire({
+            icon: 'error',
+            title: 'Cargue P R O V E E D O R',
+            text: 'Elija un   P R O V E E D O R',
+            showConfirmButton: false,
+            timer: 2000,
+          });
+          return false;
+
+        }
+
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        //console.log("fila");
+        //console.dir(fila);
+        Descripcion = fila.children[0].firstElementChild.value;
+        Cantidad = fila.children[1].firstElementChild.value;
+        Costo = fila.children[2].firstElementChild.value;
+        PorcentajeMayor = fila.children[4].firstElementChild.value;
+        Mayor = fila.children[5].firstElementChild.value;
+        PorcentajeFinal = fila.children[6].firstElementChild.value;
+        Final = fila.children[7].firstElementChild.value;
+        console.log("Descripcion :", Descripcion, " Cantidad :", Cantidad, " Costo:", Costo,
+          " % mayor: ", PorcentajeMayor, " Mayor: ", Mayor, " % final: ", PorcentajeFinal, " Final: ", Final);
+
+        // console.log("idx",idx)
+
+        /*
+         cant_temp = ".cant_" + (idx+1);
+         console.log("canttemp :", cant_temp );
+         cant_actual = parseFloat(document.querySelector(cant_temp));
+         console.log("cantidad :", cant_actual );
+         //mayor_temp = ".mayor_" + idx;
+         //final_temp = ".final_" + idx;
+         //console.log("precio mayorista :",document.querySelector(mayor_temp).value );
+         */
+         document.getElementById("search").focus();
+        $("input:text").focus(function() { $(this).select(); } );
+      });
+  
+
+      /*
+      $("#prod_compra").each(function(){
+ 
+        console.log("encontro :",$(this).text());
+        // var campo1, campo2, campo3;
+        //console.log("campo1 :", campo1,"campo2 :",campo2,"campo3 :",campo3);
+       
+        
+        
+      });
+ 
+
+        $(document).ready(function () {
+        var trs = $("table tbody tr");
+        console.log("trs ", trs);
+        $.each(trs, function (i, tr) {
+          if (!$(tr).attr('id')) {
+            // i+1  
+            $(tr).attr('id', largo);
+            console.log(tr.trim())
+          }
+        });
+        
+      });
+     
+      let total = 0;
+
+      let celdasPrecio = table.querySelectorAll("tr");
+
+      for(let i = 0; i < celdasPrecio.length; ++i){
+            total += table.;
+            console.log("total ",total);
+      }
+
+      */
+
+
+      final_Prov = document.getElementById('combo_prov').value.trim();
+      console.log(" proveedor : ", final_Prov);
+      var final_fecha = document.getElementById('fecha').value.trim();
+      console.log("fecha :", final_fecha);
+      condicion = "actualizacion";
+      if (document.getElementById('condicion1').checked) {
+        condicion = "compra";
+      }
+      var final_condicion = condicion;
+      console.log("condicion : ", final_condicion);
+      console.log("ejecutando total")
+      total = 0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+      });
+      field = document.querySelector('#total');
+      field.value = total;
+      console.log("total ", total);
+
+   if (total > 0) {
+        console.log("total ", total);
+        if (total > 0) {
+          salgo_aprocesar()
+        };
+      }
+
+    };
+
+    function salgo_aprocesar() {
+      document.getElementById('boton_procesarcompr').value = 'Enviando, por favor espere...';
+      document.getElementById('boton_procesarcompr').disabled = true;
+      Swal.fire({
+        icon: 'success',
+        title: 'Genial...',
+        text: 'Procesando compra',
+        showConfirmButton: false,
+        timer: 5000
+      });
+      document.getElementById("procesar-compra").submit();
+    }
+
+    function cambiar_costo() {
+      console.log("cambiar_costo");
+      var costo_temp = parseFloat(prompt("Costo : ", costo_temp));
+    
+       total = 0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+      });
+      field = document.querySelector('#total');
+      field.value = total;
+      console.log("total ", total);
+    };
+
+
+    function cambio_de_costo(row, id) {
+      console.log("cambio de costo");
+      console.dir(row);
+      cant_temp = ".cant_" + id;
+      cant_actual = parseFloat(document.querySelector(cant_temp).value).toFixed(2);
+
+      porc2_temp = ".porc2_" + id;
+      porc2 = parseFloat(document.querySelector(porc2_temp).value).toFixed(2);
+
+      porc1_temp = ".porc1_" + id;
+      porc1 = parseFloat(document.querySelector(porc1_temp).value).toFixed(2) ;
+
+      var doc = document.getElementById("lista_compra");
+      var costo = row.value;
+
+      var costo_nuevo = parseFloat(prompt("Costo : ", costo)).toFixed(2);
+      
+      row.value = costo_nuevo;
+
+      mayor_temp = ".mayor_" + id;
+      final_temp = ".final_" + id;
+
+      /*
+       tabla_porcMayorista= mayor_temp;
+       mayorista=parseFloat(document.querySelector(mayor_temp).value)
+       tabla_porcFinal=;
+ */
+      console.log("costo nuevo : ", costo_nuevo);
+      console.log("porc1 : ", porc1);
+      console.log("costo_nuevo*porc1:",parseFloat(costo_nuevo)+costo_nuevo*porc1/100);
+      document.querySelector(mayor_temp).value =  parseFloat(costo_nuevo * porc2 / 100 + parseFloat(costo_nuevo)).toFixed(2);
+      document.querySelector(final_temp).value =  parseFloat(costo_nuevo * porc1 / 100 + parseFloat(costo_nuevo)).toFixed(2);
+
+      subttl_temp = ".subttl_" + id;
+      document.querySelector(subttl_temp).value = (parseFloat(cant_actual * costo_nuevo)).toFixed(2);
+
+      // actializa la tabla para grabar en sql
+      costo_temp = ".costo" + id;
+      mayorista_temp = ".mayorista" + id;
+      final_temp = ".final" + id;
+      document.querySelector(costo_temp).value =  costo_nuevo;
+      console.log("costo_nuevo", costo_nuevo)
+      document.querySelector(mayorista_temp).value = costo_nuevo * porc2 / 100 + costo_nuevo;
+      document.querySelector(final_temp).value = parseFloat( costo_nuevo * porc1 / 100 + costo_nuevo).toFixed(2);
+      //alert("llego");
+       total = 0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+      });
+      field = document.querySelector('#total');
+      field.value = total;
+      console.log("total ", total);
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+    }
+
+
+    function cambio_de_porc_mayor(row, id) {
+      costo_temp = ".costo_" + id;
+
+      costo_actual = parseFloat(document.querySelector(costo_temp).value);
+      console.log("costo actual", costo_actual)
+
+      var doc = document.getElementById("lista_compra");
+
+      var porc2 = row.value;
+      console.log("Porcentaje Mayorista ", porc2);
+
+
+      var porc2_nuevo = parseFloat(prompt("Porcentaje mayorista : ", porc2)).toFixed(2);
+      row.value = porc2_nuevo;
+
+      mayor_temp = ".mayor_" + id;
+
+
+
+
+      document.querySelector(mayor_temp).value = parseFloat((costo_actual * porc2_nuevo / 100) + costo_actual);
+
+      // actializa la tabla para grabar en sql
+      porcprecio2_temp = ".porcprecio2" + id; 
+      document.querySelector(porcprecio2_temp).value =  parseFloat(porc2_nuevo).toFixed(2);
+      mayorista_temp = ".mayorista" + id;
+      document.querySelector(mayorista_temp).value =  parseFloat((costo_actual * porc2_nuevo / 100) + costo_actual);
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+
+
+    }
+
+    function cambio_de_porc_final(row, id) {
+      costo_temp = ".costo_" + id;
+
+      costo_actual = parseFloat(document.querySelector(costo_temp).value);
+      console.log("costo actual", costo_actual)
+      var doc = document.getElementById("lista_compra");
+      var porc1 = row.value;
+      console.log("Porcentaje Mayorista ", porc1);
+      var porc1_nuevo = parseFloat(prompt("Porcentaje final1 : ", porc1));
+      row.value = porc1_nuevo;
+      final_temp = ".final_" + id;
+      document.querySelector(final_temp).value = (costo_actual * porc1_nuevo / 100) + costo_actual;
+      // actializa la tabla para grabar en sql
+      porcprecio1_temp = ".porcprecio1" + id;
+      final_temp = ".final" + id;
+      document.querySelector(porcprecio1_temp).value = porc1_nuevo;
+      document.querySelector(final_temp).value = (costo_actual * porc1_nuevo / 100) + costo_actual;
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+    }
+
+    function cambio_de_mayor(row, id) {
+      costo_temp = ".costo_" + id;
+
+      costo_actual = parseFloat(document.querySelector(costo_temp).value);
+      console.log("costo actual", costo_actual)
+      var doc = document.getElementById("lista_compra");
+      var mayor = row.value;
+      console.log("Porcentaje Mayorista ", mayor);
+      var mayor_nuevo = parseFloat(prompt("Precio mayorista : ", mayor)).toFixed(2);
+      row.value = mayor_nuevo;
+      porc2_temp = ".porc2_" + id;
+      document.querySelector(porc2_temp).value = (parseFloat((mayor_nuevo / costo_actual) - 1) * 100).toFixed(2);
+      // actializa la tabla para grabar en sql
+      porc2_temp = ".porcprecio2" + id;
+      document.querySelector(porc2_temp).value = (parseFloat((mayor_nuevo / costo_actual) - 1) * 100).toFixed(2);
+      mayor_temp = ".mayorista" + id;
+      document.querySelector(mayor_temp).value = mayor_nuevo;
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+
+
+    }
+
+    function cambio_de_final(row, id) {
+      costo_temp = ".costo_" + id;
+
+      costo_actual = parseFloat(document.querySelector(costo_temp).value);
+      console.log("costo actual", costo_actual)
+      var doc = document.getElementById("lista_compra");
+      var final = row.value;
+      console.log("Porcentaje Final ", final);
+      var final_nuevo = parseFloat(prompt("Precio final : ", final));
+      row.value = final_nuevo;
+      porc1_temp = ".porc1_" + id;
+      document.querySelector(porc1_temp).value = ((parseFloat(final_nuevo / costo_actual) - 1) * 100).toFixed(2);
+      // actializa la tabla para grabar en sql
+      porc1_temp = ".porcprecio1" + id;
+      document.querySelector(porc1_temp).value = ((parseFloat(final_nuevo / costo_actual) - 1) * 100).toFixed(2);
+      mayor_temp = ".final" + id;
+      document.querySelector(mayor_temp).value = final_nuevo;
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+    }
+
+    function cantidad(row, id) {
+      console.log("cantidad Jesus");
+      
+      costo_temp = ".costo_" + id;
+      costo_actual = parseFloat(document.querySelector(costo_temp).value).toFixed(2);
+
+      cant_temp = ".cant_" + id;
+      cant_actual = parseFloat(document.querySelector(cant_temp).value).toFixed(2);
+      console.log("cantidad actual", cant_actual)
+      var doc = document.getElementById("lista_compra");
+      var cant = row.value;
+      console.log("cantidad  ", cant);
+      var cant_nuevo = parseFloat(prompt("Cambio cant : ", cant)).toFixed(2);
+      row.value = cant_nuevo;
+      subttl_temp = ".subttl_" + id;
+      document.querySelector(subttl_temp).value = parseFloat(cant_nuevo * costo_actual).toFixed(2);
+      cant_temp = ".cant" + id;
+      document.querySelector(cant_temp).value = parseFloat(cant_nuevo).toFixed(2);
+
+       total = 0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+      });
+      field = document.querySelector('#total');
+      field.value = total;
+      console.log("total ", total);
+      document.getElementById("search").focus();
+      $("input:text").focus(function() { $(this).select(); } );
+
+
+    }
+
+
+    const listaCompra = document.querySelector("#lista_compra tbody");
+
+    /*var myDate = document.querySelector(fecha);
+    var today = new Date();
+    console.log("today :", today);
+    myDate.value = today.toISOString().substr(0, 10);
+    console.log(" myDate :", myDate);
+
+*/
+    var date = new Date().toISOString().substring(0, 10);
+    console.log("date :", date);
+    field = document.querySelector('#fecha');
+    field.value = date;
+    console.log(field.value);
+    document.getElementById("search").focus();
+
+    function total() {
+
+      console.log("ejecutando total")
+      total = 0;
+      $("#lista_compra tbody tr").each(function (idx, fila) {
+        total = total + parseFloat(fila.children[3].firstElementChild.value);
+      });
+      field = document.querySelector('#total');
+     field.value = total;
+      console.log("total ", total);
+    
+    }
+
+  
+
+ // INSERT INTO `compra` (`id_compra`, `id_prov`, `fecha`, `total`) VALUES (NULL, '1', '2021-02-22', '100');
+  </script>
+</body>

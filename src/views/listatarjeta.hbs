@@ -1,0 +1,272 @@
+<body>
+  <div class="shopping-cart">
+    <!-- Title -->
+    {{#if cat}}
+    {{#each cat}}
+    <div class="title">
+      {{des}}
+    </div>
+    {{/each}}
+    {{/if}}
+    {{#each pro}}
+
+    <table border=3 style="width:100%;">
+      <tr>
+        <td colspan="2">
+          <input class="description" type="text" id="desc_{{id_producto}}" value="{{des}}"></input>
+        </td>
+      </tr>
+      <tr class="nota">
+        <td colspan="2">
+          <br>{{nota}}
+        </td>
+      </tr>
+      <tr>
+        <td width="20%"  align="left">
+
+          {{#if foto2}}
+          <img height=600px width=400px src="../../img/{{foto2}}" value="../../img/{{foto2}}" />
+          <input id="foto_{{id_producto}}" value="{{foto2}}" hidden=true></input>
+          {{else}}
+          <img height=300px width=200px />
+          {{/if}}
+        <!-- <tr key={{id_producto}} class="item"></tr>-->
+        </td>
+        <td width="80%">
+          <table>
+            <tr>  
+              <td  align="center">
+                <input id="precio_{{id_producto}}" value={{precio1}} readonly hidden=true></input>
+                <dt class="total-price" align="center" >$&nbsp&nbsp{{precio1}}</dt>
+                <input type="text" class="total-price" align="right" width="20%" id="unidad_{{id_producto}}"
+                  value={{unidad}} hidden=true></input>
+                             
+                    
+                <div class="nota">El precio es por &nbsp{{tipoventa}}</div>
+                     
+                  
+              </td>
+                <td align="center">
+                    <div class="quantity"  >
+                      <button class="minus-btn" type="button" id="BotonMenos" value="{{id_producto}}">-</button>
+                      <!--  <img src="../../img/minus.png" alt="resta" />-->
+                    <input type="text" class="quantity.input" id="cantidad_{{id_producto}}" value="0" readonly></input>
+                      <!--<input type="text" name="name" value="1">-->
+                    <button class="plus-btn" type="button" id="BotonMas" value="{{id_producto}}">+</button>
+                      <!--  <img src="../../img/plus.png" alt="suma" />-->
+                    <button class="sumacanasto" type="button" id="{{id_producto}}" value="{{id_producto}}">Agregar</button>
+                      <!--  <img src="../../img/minus.png" alt="resta" />-->             
+                    </div>
+                   <td colspan="3"align="right"> 
+                    <input class="total-price"  width="10%" id="total_{{id_producto}}" value="0"></input>
+                    </td>
+              </td>
+            </tr>
+
+            
+            <tr>
+              
+             
+            </tr>
+           
+          </table>
+       </td>
+      </tr>
+    </table>
+  {{/each}}
+  </div>
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+
+
+      var self = this;
+
+      console.log('this');
+      console.dir(this);
+      $('.plus-btn').on('click', function (e) {
+
+        console.log('aa');
+        var id = (e.target.value);
+        var str = parseFloat($("#cantidad_" + id).val());
+        var unidad = parseFloat($("#unidad_" + id).val());
+        var price = parseFloat($("#precio_" + id).val());
+
+        console.log(price);
+        console.log(unidad);
+        console.log(str);
+        str = parseFloat(str + unidad).toFixed(2);
+        console.log(str);
+        var total_item = parseFloat(price * str).toFixed(2);
+
+        console.log(str);
+        $("#cantidad_" + id).val(str);      // pone la cantidad en el value de cantidad
+        $("#total_" + id).val(total_item);
+
+      });
+
+
+
+      $('.minus-btn').on('click', function (e) {
+        var id = (e.target.value);
+        var str = parseFloat($("#cantidad_" + id).val());
+        var price = parseFloat($("#precio_" + id).val());
+        var unidad = parseFloat($("#unidad_" + id).val());
+
+        console.log(unidad);
+
+        var str = parseFloat(str - unidad).toFixed(2);
+        console.log(str);
+
+
+        console.log(unidad);
+        if (str < 0) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El producto debe ser mayor a 0',
+            showConfirmButton: false,
+            timer: 2000
+          })
+          str = 0;
+        }
+        var total_item = parseFloat(price * str).toFixed(2);
+
+        $("#cantidad_" + id).val(str);
+        $("#total_" + id).val(total_item);
+
+
+      });
+
+
+      $('.sumacanasto').on('click', function (e) {
+
+        console.log('agregar carrito');
+        console.log(e.target);
+
+        var id = (e.target.value),
+          cant = parseFloat($("#cantidad_" + id).val());
+        const infoProducto = {
+          id: id,
+          desc: $("#desc_" + id).val(),
+
+          img: $("#foto_" + id).val(),
+          cant: parseFloat($("#cantidad_" + id).val()),
+          unid: parseFloat($("#unidad_" + id).val()),
+          precio: parseFloat($("#precio_" + id).val()),
+          stotal: parseFloat($("#total_" + id).val())
+
+        };
+        console.dir(infoProducto);
+
+
+        if (cant == 0) {
+
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'El producto debe ser mayor a 0',
+            showConfirmButton: false,
+            timer: 2000
+          })
+        }
+        else {
+          let productosLS;
+          productosLS = obtenerProductosLocalStorage();
+          productosLS.forEach(function (productoLS) {
+            console.log('for');
+            console.dir(productoLS);
+            console.dir(infoProducto);
+            if (productoLS.id === infoProducto.id) {
+              productosLS = productoLS.id;
+            }
+          });
+
+          if (productosLS === infoProducto.id) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'El producto ya está en el carrito',
+              showConfirmButton: false,
+              timer: 2000
+            })
+          }
+          else {
+
+            let productos = [];
+
+
+            console.dir(localStorage);
+            productos = obtenerProductosLocalStorage();
+            productos.push(infoProducto);
+            localStorage.setItem('productos', JSON.stringify(productos));
+            Swal.fire({
+              icon: 'success',
+              title: 'Producto agregado al carrito',
+              showConfirmButton: false,
+              timer: 1500
+            })
+
+            console.dir(localStorage);
+
+
+          }
+        }
+      });
+
+      function obtenerProductosLocalStorage() {
+        console.log('obtenerProductosLocalStorage')
+        let productoLS;
+
+        //Comprobar si hay algo en LS
+        if (localStorage.getItem('productos') === null) {
+          console.log('no tiene');
+          productoLS = [];
+        }
+        else {
+          console.log('tiene');
+          console.dir(localStorage.getItem('productos'));
+          productoLS = JSON.parse(localStorage.getItem('productos'));
+        }
+        return productoLS;
+      }
+
+
+    });
+  </script>
+  <!--<script src="carrito.js"></script>-->
+  <script>
+    const carro = new Carrito();
+    const carrito = document.getElementById('carrito');
+    const productos = document.getElementById('lista-productos');
+    const listaProductos = document.querySelector('#lista-carrito tbody');
+    const vaciarCarritoBtn = document.getElementById('vaciar-carrito');
+    const procesarPedidoBtn = document.getElementById('procesar-pedido');
+
+    cargarEventos();
+
+    function cargarEventos() {
+
+      //Se ejecuta cuando se presionar agregar carrito
+      productos.addEventListener('click', (e) => { carro.comprarProducto(e) });
+
+      //Cuando se elimina productos del carrito
+      carrito.addEventListener('click', (e) => { carro.eliminarProducto(e) });
+
+      //Al vaciar carrito
+      vaciarCarritoBtn.addEventListener('click', (e) => { carro.vaciarCarrito(e) });
+
+      //Al cargar documento se muestra lo almacenado en LS
+      document.addEventListener('DOMContentLoaded', carro.leerLocalStorage());
+
+      //Enviar pedido a otra pagina
+      procesarPedidoBtn.addEventListener('click', (e) => { carro.procesarPedido(e) });
+    }
+  </script>
+  <script src="pedido.js"></script>
+  <!--<script src="sweetalert2.min.js"></script>-->
+  <script type="text/javascript">
+
+</body >

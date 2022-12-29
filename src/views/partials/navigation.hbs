@@ -1,0 +1,83 @@
+<body>
+<header class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <table border=0 class="tabla-barra">
+      <tr>
+          <td></td>
+          <td></td>
+          <td>
+            <input align="left" id="items" name="items" class="numcarrito border-0" readonly></input>
+          </td>
+          <td></td>
+ 
+
+      </tr>
+      <tr>
+        <td align="left" width="20%" >
+          <ul class="nav-item dropdown menucategoria" list-style="none">
+            <h3 class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" list-style="none">
+              PRODUCTOS
+            </h3>
+            <div class="dropdown-menu menucategoria" aria-labelledby="navbarDropdown">
+              <li><img src="../img/queso32.png"> <a href="/producto/10"> QUESOS </a></li>
+              <li><img src="../img/jamon32.png"> <a href="/producto/20"> FIAMBRES</a></li>
+              <li><img src="../img/almacen32.png"> <a href="/producto/30"> ALMACEN</a></li>
+              <li><img src="../img/mermelada2.png"><a href="/producto/40"> DULCES </a></li>
+              <li><img src="../img/snack32.png"> <a href="/producto/50"> SNACK </a></li>
+              <li><img src="../img/aceituna32.png"><a href="/producto/60"> ENCURTIDOS </a></li>
+              <li><img src="../img/pasta.png"><a href="/producto/80"> PASTAS </a></li>
+              <li><img src="../img/mini_frutos.png"><a href="/producto/70"> FRUTOS SECOS </a></li>
+              <li><img src="../img/saludable.png"><a href="/producto/75"> SALUDABLES </a></li>
+              <li><img src="../img/condimentos.png"><a href="/producto/90"> CONDIMENTOS </a></li>
+              <!--<li><img src="../img/cerveza32.png"> <a href="/listatarjeta/A0"> BEBIDAS </a></li>-->
+              <li><img src="../img/todos.png"> <a href="/producto/todos"> TODOS </a></li>
+            </div>
+          </ul>
+        </td>
+        <td width="5%">
+          <a align="left" href="/">
+          <img align="left" src="../img/logo.jpeg"  height="200px"  width="200px" > </a>
+        </td>
+        <td width="20%" >   
+              <a href="/carritobarra"  >
+              <img align="center" src="../img/carrito_gris.png"  height="150px"  width="150px"> </img>
+              
+        </td>   
+         <td width="60%" align="left">       
+          <a href="https://www.instagram.com/losrosalesonline/" >
+          <img align="left" src="../img/instagram.png"  height="70px"  width="70px" > </a>
+        </td>
+               
+      </tr>
+    </table>
+  </div>
+</header>
+
+
+<script>
+  productosLS = obtenerProductosLocalStorage();
+  //productoLS = JSON.parse(localStorage.getItem('productos'));
+  console.log(productosLS);
+  console.log(productosLS.length);
+  document.getElementById('items').value = productosLS.length;
+  
+  function obtenerProductosLocalStorage() {
+    console.log('obtenerProductosLocalStorage')
+    let productoLS;
+
+    //Comprobar si hay algo en LS
+    if (localStorage.getItem('productos') === null) {
+      console.log('no tiene');
+      productoLS = [];
+    }
+    else {
+      console.log('tiene navigation');
+     // console.dir(localStorage.getItem('productos'));
+      productoLS = JSON.parse(localStorage.getItem('productos'));
+    }
+   // document.getElementById('items').value = localStorage.length;
+    return productoLS;
+  }
+
+</script>
+</body>

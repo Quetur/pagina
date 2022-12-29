@@ -1,0 +1,139 @@
+<body>
+  <main>
+    <form action="" class="formulario" id="formulario">
+      <table borde=3>
+        <tr>
+          <td rowspan="2"> imagen actual</td>
+          <td rowspan="2">
+            <!-- Grupo: Descripcion -->
+            <div class="formulario__grupo" id="grupo__descripcion">
+              <div class="formulario__grupo-input">
+                <input type="text" class="formulario__input" name="des" value="{{des}}" id="descripcion">
+                <i class="formulario__validacion-estado fas fa-times-circle"></i>
+              </div>
+              <p class="formulario__input-error">El usuario tiene que ser de 4 a 16 dígitos y solo puede contener
+                numeros,
+                letras y guion bajo.</p>
+            </div>
+          </td>
+          <td>Imagen nueva<br></td>
+        </tr>
+        <tr>
+          <td>Buscar imagen</td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <div class="formulario__grupo" id="grupo__usuario">
+              <label for="usuario" class="formulario__label">categria</label>
+              <table border="3">
+                <tr>
+                  <td style="width: 53%" ;>Categoria: </td>
+                  <td style="width: 100%;  text-align: right;">
+                    <select name="id_categoria" id="id_categoria" style="width: 100%;  text-align: right;">
+                      {{#each cat}}
+                      {{#if id_categoria_producto}}
+                      <option selected value={{id_categoria}}>{{des}}</option>
+                      {{else}}
+                      <option value={{id_categoria}}>{{des}}</option>
+                      {{/if}}
+                      {{/each}}
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td>subcategoria</td>
+        </tr>
+        <tr>
+          <td>unidadde medida</td>
+          <td>fraccion 0,2</td>
+          <td>visible</td>
+        </tr>
+        <tr>
+          <td colspan="2">Nota</td>
+          <td>Precio</td>
+        </tr>
+        <tr>
+          <td>cancelar</td>
+          <td></td>
+          <td>aceptar</td>
+        </tr>
+      </table>
+
+
+      >
+
+      <!-- Grupo: Contraseña -->
+      <div class="formulario__grupo" id="grupo__password">
+        <label for="password" class="formulario__label">Contraseña</label>
+        <div class="formulario__grupo-input">
+          <input type="password" class="formulario__input" name="password" id="password">
+          <i class="formulario__validacion-estado fas fa-times-circle"></i>
+        </div>
+        <p class="formulario__input-error">La contraseña tiene que ser de 4 a 12 dígitos.</p>
+      </div>
+
+      <!-- Grupo: Contraseña 2 -->
+      <div class="formulario__grupo" id="grupo__password2">
+        <label for="password2" class="formulario__label">Repetir Contraseña</label>
+        <div class="formulario__grupo-input">
+          <input type="password" class="formulario__input" name="password2" id="password2">
+          <i class="formulario__validacion-estado fas fa-times-circle"></i>
+        </div>
+        <p class="formulario__input-error">Ambas contraseñas deben ser iguales.</p>
+      </div>
+
+      <!-- Grupo: Correo Electronico -->
+      <div class="formulario__grupo" id="grupo__correo">
+        <label for="correo" class="formulario__label">Correo Electrónico</label>
+        <div class="formulario__grupo-input">
+          <input type="email" class="formulario__input" name="correo" id="correo" placeholder="correo@correo.com">
+          <i class="formulario__validacion-estado fas fa-times-circle"></i>
+        </div>
+        <p class="formulario__input-error">El correo solo puede contener letras, numeros, puntos, guiones y guion bajo.
+        </p>
+      </div>
+
+      <!-- Grupo: Teléfono -->
+      <div class="formulario__grupo" id="grupo__telefono">
+        <label for="telefono" class="formulario__label">Teléfono</label>
+        <div class="formulario__grupo-input">
+          <input type="text" class="formulario__input" name="telefono" id="telefono" placeholder="4491234567">
+          <i class="formulario__validacion-estado fas fa-times-circle"></i>
+        </div>
+        <p class="formulario__input-error">El telefono solo puede contener numeros y el maximo son 14 dígitos.</p>
+      </div>
+
+      <!-- Grupo: Terminos y Condiciones -->
+      <div class="formulario__grupo" id="grupo__terminos">
+        <label class="formulario__label">
+          <input class="formulario__checkbox" type="checkbox" name="terminos" id="terminos">
+          Acepto los Terminos y Condiciones
+        </label>
+      </div>
+
+      <div class="formulario__mensaje" id="formulario__mensaje">
+        <p><i class="fas fa-exclamation-triangle"></i> <b>Error:</b> Por favor rellena el formulario correctamente. </p>
+      </div>
+
+      <div class="formulario__grupo formulario__grupo-btn-enviar">
+        <button type="submit" class="formulario__btn">Enviar</button>
+        <p class="formulario__mensaje-exito" id="formulario__mensaje-exito">Formulario enviado exitosamente!</p>
+      </div>
+    </form>
+  </main>
+<script> 
+  $(document).ready(function () {
+ 
+    console.log("cargo 1 vez");
+    
+      //console.dir(pro);
+      console.log(pro.des);
+    
+
+  });
+
+</script>
+  <script src="js/formulario.js"></script>
+  <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>

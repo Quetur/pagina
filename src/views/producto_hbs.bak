@@ -1,0 +1,31 @@
+<main class="index">
+<h3 class="color-mio">Envios sin cargo a partir de los 1000 $</h3>
+<header class="masthead d-flex">
+    <div class="d-flex  justify-content-center"  >
+      <div class="col-md-12 mx-auto">  
+        <div class="listaProductos" >          
+          <table class="table table-striped table-bordered table-hover">               
+            <tr>
+              <td>Descripcion</td> 
+              <td>Precio</td>
+              <td style="text-align:center;" colspan="3">Acción</td>
+              
+              <tbody> 
+                {{#each data}} 
+               <tr>                       
+                <td>{{des}}</td>
+                <td style="text-align:right;">$&nbsp&nbsp{{precio1}}</td>
+                <td style="text-align:center;"><a href="/verProducto/{{id_producto}}" 
+                       class="btn btn-info" >Ver</a></td>
+                </tr>
+                {{/each}} 
+              </tbody>           
+          </table>                
+        </div>  
+     </div>      
+    </div>
+  <div class="overlay"></div>
+</header>
+</main>
+
+

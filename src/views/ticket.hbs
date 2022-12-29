@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!--<link rel="stylesheet" href="../css/estilos.css">
+    <script src="script.js"></script>-->
+</head>
+
+<body>
+    <div>
+        <a class="btn btn-info oculto-impresion" style="width: 440px;text-align: center;" href="/productoventa" class="btn btn-info">volver</a>
+
+        <table border="0">
+            <tr>
+                <td border="0" style="width: 440px;">
+                    <img align="left" src="../img/ticket.jpg" height="250px" width="430px" alt="Logotipo">
+                </td>
+
+
+            </tr>
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+
+        </table>
+        <!--
+        <table border="0">
+            <tr>
+
+
+                <td style="width: 500px; text-align: center;">
+
+                    <p class="subtitu_ticket">Quesos - Fiambres - Dulces</p>
+                    <p class="subtitu_ticket">Articulos de Almacen</p>
+                    <p class="subtitu_ticket">4624-2467 / 15 7368-1179</p>
+                    <p class="subtitu_ticket">Av.Kirchner 21500 - Ituzaingo</p>
+                </td>
+            </tr>
+        </table>
+        -->
+        <table style="background: white;" border="0">
+            <tr>
+                <td style="width: 230px;">
+                    <a class="ticket_item">Fecha : {{mfecha}}&nbsp&nbsp{{mhora}}</a>
+                </td>
+                <td style="width: 230px;">
+                    <a class="ticket_item">Nota de Pedido :&nbsp&nbsp {{compra_nro}} </a>
+                </td>
+
+            </tr>
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+            <tr>
+                <td>
+                    <a class="ticket_item">Cliente : {{cliente}} </a>
+                </td>
+
+                <td>
+                    <a class="ticket_item">Vendedor:&nbsp&nbsp {{combo_prov}}</a>
+                </td>
+            </tr>
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+        </table>
+
+        <table class="ticket_item" border="2">
+            <tr>
+                <td style="width: 30px;text-align: center;">
+                    <a>Cant</a>
+                </td>
+                <td style="width: 285px;text-align: left;">
+                    <a>Producto</a>
+                </td>
+                <td style="width: 50px;text-align: center;">
+                    <a>Precio</a>
+                </td>
+                <td style="width: 50px;text-align: center;" class="ticket_precio">
+                    <a class="ticket_precio">Total</a>
+                </td>
+            </tr>
+            {{#each data}}
+            <tr>
+
+                <td style="width: 50px;text-align: center;"> <a>{{cant}} </a></td>
+                <td> <a>{{des}} </a> </td>
+                <td style="width: 40px;text-align: right;" class="ticket_precio"> <a
+                        class="ticket_precio">{{precio_unit}}&nbsp&nbsp </a></td>
+                <td style="width: 40px;text-align: right;"> <a>{{venta}}&nbsp&nbsp </a></td>
+
+            </tr>
+            {{/each}}
+        </table>
+        <table class="ticket_total" border="0">
+            <tr style="height: 20px;">
+                <td> <a></a> </td>
+            <tr>
+                <td style="width: 210px;text-align: left;">
+                    <a>Articulos:&nbsp {{largo}}</a>
+                </td>
+
+                <td style="width: 160px;text-align: right;">
+                    <a>TOTAL - ></a>
+                </td>
+                <td style="width: 70px;text-align: right;">
+                    <a>{{total}}&nbsp&nbsp</a>
+                </td>
+
+            </tr>
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+            <tr>
+                <td style="text-align: right;">
+
+                </td>
+                <td style="width: 150px;text-align: right;">
+                    <a name="pago_des" id="pago_des">pago - ></a>
+                </td>
+                <td style="width: 70px;text-align: right;">
+                    <a name="pago" id="pago">{{pago}}&nbsp&nbsp</a>
+                </td>
+            </tr>
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+            <tr>
+                <td style="text-align: right;">
+                    <a name="condicion" id="condicion">pago con : {{condicion}} </a>
+                </td>
+                <td style="width: 150px;text-align: right;">
+                    <a name="vuelto_des" id="vuelto_des">Su vuelto -></a>
+                </td>
+                <td style="width: 70px;text-align: right;">
+                    <a name="vuelto" id="vuelto">{{vuelto}}&nbsp&nbsp</a>
+                </td>
+
+            </tr>
+        </table>
+        <table border="0">
+            <tr style="height: 10px;">
+                <td> <a></a> </td>
+            <tr>
+                <td style="width: 440px;text-align: left;">
+                    <a class="gracias">Muchas Gracias !!!</a>
+                </td>
+            </tr>
+            <tr>
+
+                <td style="width: 440px;text-align: center;">
+                    <a class="gracias">www.mayoristalosrosales.com.ar</a>
+                </td>
+            </tr>
+            <tr>
+
+                <td style="width: 440px;text-align: center;">
+                    <a>&nbsp&nbsp</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <button class="oculto-impresion btn btn-success" style="width: 440px;text-align: center;" onclick="imprimir()">Imprimir</button>
+ 
+    <script type="text/javascript">
+        var metodo = "{{condicion}}";
+        console.log("metodo = ", metodo);
+        if (metodo == "Efectivo") {
+            console.log("if condicion = Efectivo");
+            document.getElementById('condicion').hidden = true
+            document.getElementById('pago_des').hidden = false
+            document.getElementById('pago').hidden = false
+            document.getElementById('vuelto_des').hidden = false
+            document.getElementById('vuelto').hidden = false
+        }
+        else {
+            console.log("if condicion = Debito");
+            document.getElementById('pago_des').hidden = true
+            document.getElementById('pago').hidden = true
+            document.getElementById('vuelto_des').hidden = true
+            document.getElementById('vuelto').hidden = true
+        }
+
+
+        function imprimir() {
+            window.print();
+        }
+        function volver() {
+            document.getElementById("volver").submit();
+        }
+    </script>
+</body>
+
+</html>

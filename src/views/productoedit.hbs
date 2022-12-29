@@ -1,0 +1,134 @@
+<body>
+  <main>
+    <div class="container">
+      <div class="row mt-3">
+        <table border="3"> 
+          <tr>
+            <td style="width: 53%";>Categoria: </td> 
+            <td style="width: 100%;  text-align: right;"> 
+              <select name="id_categoria" id="id_categoria" style="width: 100%;  text-align: right;">
+                {{#each cat}}
+                  {{#if id_categoria_producto}}
+                    <option selected value={{id_categoria}} >{{des}}</option>
+                  {{else}}   
+                    <option value={{id_categoria}}>{{des}}</option>
+                  {{/if}} 
+               {{/each}}      
+              </select>          
+            </td>
+          </tr>
+        </table>
+
+        {{#each pro}}
+        <form action="/productomodi/{{id_producto}}" method="post">
+          <table border="3">
+            <tr>
+              <td style="width: 50%" ;>Sub-Categoria: </td>
+              <td>
+                <input type="text" name="id_subcategoria" value="{{id_subcategoria}}" class="form-control" autofocus />
+
+              </td>
+            </tr>
+            <tr>
+              <td>Orden: </td>
+              <td>
+                <input type="text" name="orden" value="{{orden}}" class="form-control" autofocus />
+              </td>
+            </tr>
+            <tr>
+              <td>Descripcion: </td>
+              <td>
+                <input name="des" value="{{des}}" placeholder="Descripcion" class="form-control" autofocus />
+              </td>
+            <tr>
+              <td>Precio: </td>
+              <td style="width: 80%; text-align: right;color:red;">
+                <input type="text" text-align="right" name="precio1" value="{{precio1}}" placeholder="Precio" />
+              </td>
+            </tr>
+            <tr>
+              <td>Tipo de Producto: </td>
+              <td>
+                <input type="text" name="tipoventa" value="{{tipoventa}}" placeholder="Tipo de venta"
+                  class="form-control" autofocus />
+              </td>
+            </tr>
+            <tr>
+              <td>Peso por unidad: </td>
+              <td>
+                <input type="text" name="unidad" value="{{unidad}}" placeholder="Unidad" class="form-control"
+                  autofocus />
+              </td>
+            </tr>
+            <td>Nota: </td>
+            <td>
+              <input type="text" name="nota" value="{{nota}}" placeholder="Nota" class="form-control" autofocus />
+            </td>
+            </tr>
+            <tr>
+              <td>Foto actual: </td>
+              <td>
+                <input type="text" name="foto2" value="{{foto2}}" placeholder="Foto" class="form-control" autofocus />
+                <img class="grid-img" src="https://losrosales-fileserver.s3-sa-east-1.amazonaws.com/img/{{foto2}}" />
+              </td>
+
+            </tr>
+            <tr>
+              <td>Foto nueva: </td>
+              <td>
+              <!--  <input type='file' onchange="openFile(event)" name="image" id="image"><br>
+                <img src="" id="output" height="200" alt="Image preview...">
+              -->
+              </td>
+            </tr>
+            {{/each}}
+
+            <tr>
+              <td align="right">
+                <button class="btn btn-primary btn-lg active" role="button" aria-pressed="true" value="grabar"
+                  type="submit" id="boton">Grabar</button>
+              </td>
+              <td align="right">
+                <input class="btn btn-primary btn-lg active" role="button" aria-pressed="true" value="cancel"
+                  type="submit" id="cancelar" onclick=cancelar()></input>
+              </td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </main>
+
+
+
+</body>
+
+<script>
+  console.log("jesus");
+  console.dir(id_categoria.value);
+
+  var openFile = function (event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    reader.onload = function () {
+      var dataURL = reader.result;
+      var output = document.getElementById('output');
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+    var file = document.querySelector('input[type=file]').files[0];
+    console.dir(file);
+  };
+   function cancelar() {
+    localStorage.clear();
+    console.log('cancelar edicion');
+    Swal.fire({
+      title: 'cancelar edicion ....',
+      text: '',
+      showConfirmButton: false,
+      timer: 2000
+    }).then(function () {
+      window.location = "./";
+    })
+</script>

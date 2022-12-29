@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Node Image Upload</title>
+    <!-- BOOTSTRAP 4 -->
+</head>
+
+<body>
+
+    <div class="container">
+        <form action="/images/upload" method="POST">
+            <!--<input type='file' accept='image/*' onchange="openFile(event)" name="image" id="image"><br>-->
+            <input type='file' onchange="openFile(event)" name="image" id="image"><br>
+            <img src="" id="output" height="200" alt="Image preview...">
+
+
+            <!-- <input type="file" name="image" id="file">-->
+            <button type="submit">
+                Subir
+            </button>
+        </form>
+    </div>
+                <script>
+
+                var openFile = function (event) {
+                    var input = event.target;
+
+                    var reader = new FileReader();
+                    reader.onload = function () {
+                        var dataURL = reader.result;
+                        var output = document.getElementById('output');
+                        output.src = dataURL;
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                    var file = document.querySelector('input[type=file]').files[0];
+                    console.dir(file);
+                };
+                $('#image').change(function (event) {
+                    console.log("hola");
+
+                    var tmppath = URL.createObjectURL(event.target.files[0]);
+                      
+                    console.log(tmppath);
+                    $("img").fadeIn("fast").attr('src', URL.createObjectURL(event.target.files[0]));
+
+                    $("#disp_tmp_path").html("Temporary Path(Copy it and try pasting it in browser address bar) --> <strong>[" + tmppath + "]</strong>");
+                });
+            </script>
+
+</body>
+
+</html>
